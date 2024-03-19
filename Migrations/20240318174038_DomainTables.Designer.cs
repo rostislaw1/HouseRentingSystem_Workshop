@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseRentingSystem_Workshop.Migrations
 {
     [DbContext(typeof(HouseRentingDbContext))]
-    [Migration("20240315175138_Initial")]
-    partial class Initial
+    [Migration("20240318174038_DomainTables")]
+    partial class DomainTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

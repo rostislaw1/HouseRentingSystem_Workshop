@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseRentingSystem_Workshop.Migrations
 {
     [DbContext(typeof(HouseRentingDbContext))]
-    [Migration("20240315175138_Initial")]
-    partial class Initial
+    [Migration("20240318183607_DataSeeded")]
+    partial class DataSeeded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,171 @@ namespace HouseRentingSystem_Workshop.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("HouseRentingSystem_Workshop.Data.Models.Agent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Agent Identifier");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)")
+                        .HasComment("Agent Phone number");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasComment("User Identifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Agents");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PhoneNumber = "+359888888888",
+                            UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                        });
+                });
+
+            modelBuilder.Entity("HouseRentingSystem_Workshop.Data.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("Category Identifier");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasComment("Category Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            Name = "Duplex"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Single-Family"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            Name = "Cottage"
+                        });
+                });
+
+            modelBuilder.Entity("HouseRentingSystem_Workshop.Data.Models.House", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasComment("House Identifier");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
+                        .HasComment("House Address");
+
+                    b.Property<int>("AgentId")
+                        .HasColumnType("int")
+                        .HasComment("Agent Identifier");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int")
+                        .HasComment("Category Identifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasComment("House Description");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("House ImageUrl");
+
+                    b.Property<decimal>("PricePerMonth")
+                        .HasColumnType("decimal(18,2)")
+                        .HasComment("House Price per month");
+
+                    b.Property<string>("RenterId")
+                        .HasColumnType("nvarchar(max)")
+                        .HasComment("Renter Identifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasComment("House Title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AgentId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Houses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "North London, UK (near the border)",
+                            AgentId = 1,
+                            CategoryId = 3,
+                            Description = "A big house for your whole family. Don't miss to buy a house with three bedrooms.",
+                            ImageUrl = "https://www.luxury-architecture.net/wp-content/uploads/2017/12/1513217889-7597-FAIRWAYS-010.jpg",
+                            PricePerMonth = 2100.00m,
+                            RenterId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            Title = "Big House Marina"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Near the Sea Garden in Burgas, Bulgaria",
+                            AgentId = 1,
+                            CategoryId = 2,
+                            Description = "It has the best comfort you will ever ask for. With two bedrooms, it is great for your family.",
+                            ImageUrl = "https://cf.bstatic.com/xdata/images/hotel/max1024x768/179489660.jpg?k=2029f6d9589b49c95dcc9503a265e292c2cdfcb5277487a0050397c3f8dd545a&o=&hp=1",
+                            PricePerMonth = 1200.00m,
+                            Title = "Family House Comfort"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Boyana Neighbourhood, Sofia, Bulgaria",
+                            AgentId = 1,
+                            CategoryId = 2,
+                            Description = "This luxurious house is everything you will need. It is just excellent.",
+                            ImageUrl = "https://i.pinimg.com/originals/a6/f5/85/a6f5850a77633c56e4e4ac4f867e3c00.jpg",
+                            PricePerMonth = 2000.00m,
+                            Title = "Grand House"
+                        });
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -139,6 +304,40 @@ namespace HouseRentingSystem_Workshop.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "eb3d6f03-e4a0-40e9-9998-e29f3168688a",
+                            Email = "agent@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "agent@mail.com",
+                            NormalizedUserName = "agent@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMNy1LcyTIHcydF3ixRJG9HOQPr3c6GiBJl+wNHXlQNBNGF6aAvpyPmbpPn7RJnoSQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ae0f41eb-198c-4637-926e-20912dc72741",
+                            TwoFactorEnabled = false,
+                            UserName = "agent@mail.com"
+                        },
+                        new
+                        {
+                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "01473be5-b224-449f-b534-c9f9132ad067",
+                            Email = "guest@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "guest@mail.com",
+                            NormalizedUserName = "guest@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAENUw1qoP+VO4AE9sCFnE6T0/+sigfmXTG39DAO2QP/OJCGdeSmJMbt3cSvIa4n6wxg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4421bbf7-4b46-44dd-8e9d-965fe64c097b",
+                            TwoFactorEnabled = false,
+                            UserName = "guest@mail.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -226,6 +425,36 @@ namespace HouseRentingSystem_Workshop.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HouseRentingSystem_Workshop.Data.Models.Agent", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("HouseRentingSystem_Workshop.Data.Models.House", b =>
+                {
+                    b.HasOne("HouseRentingSystem_Workshop.Data.Models.Agent", "Agent")
+                        .WithMany()
+                        .HasForeignKey("AgentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("HouseRentingSystem_Workshop.Data.Models.Category", "Category")
+                        .WithMany("Houses")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Agent");
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -275,6 +504,11 @@ namespace HouseRentingSystem_Workshop.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HouseRentingSystem_Workshop.Data.Models.Category", b =>
+                {
+                    b.Navigation("Houses");
                 });
 #pragma warning restore 612, 618
         }

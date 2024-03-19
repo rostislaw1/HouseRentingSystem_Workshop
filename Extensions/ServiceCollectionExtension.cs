@@ -14,7 +14,7 @@ namespace HouseRentingSystem_Workshop.Extensions
         public static IServiceCollection AddApplicatoinDbContext(this IServiceCollection services, IConfiguration config)
         {
             var connectionString = config.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<HouseRentingDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
 
@@ -33,7 +33,7 @@ namespace HouseRentingSystem_Workshop.Extensions
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                 })
-              .AddEntityFrameworkStores<ApplicationDbContext>();
+              .AddEntityFrameworkStores<HouseRentingDbContext>();
             services.AddControllersWithViews();
             return services;
         }
